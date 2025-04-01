@@ -7,6 +7,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'process';
 import { UserModule } from './user/user.module';
 import { User } from './user/entity/user.entity';
+import { PostModule } from './post/post.module';
+import { Post } from './post/entity/post.entity';
+import { LikeModule } from './like/like.module';
+import { Like } from './like/entity/like.entity';
+import { CommentModule } from './comment/comment.module';
+import { CommunityModule } from './community/community.module';
+import { Community } from './community/entity/community.entity';
+import { Comment } from './comment/entity/comment-entity';
+import { CommunityMember } from './community/entity/community.member.entity';
 
 @Module({
   imports: [
@@ -20,13 +29,17 @@ import { User } from './user/entity/user.entity';
             username: configService.get("DB_USERNAME"),
             password: configService.get("DB_PASSWORD"),
             database: configService.get("DB_DATABASE"),
-            entities: [User],
+            entities: [User, Post, Like, Comment, Community, CommunityMember],
             synchronize: true
           }),
           inject: [ConfigService]
         }),
         AuthModule,
-        UserModule, 
+        UserModule,
+        PostModule,
+        LikeModule,
+        CommentModule,
+        CommunityModule,
       ],
   controllers: [AppController],
   providers: [AppService],

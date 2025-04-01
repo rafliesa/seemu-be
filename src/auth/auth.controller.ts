@@ -4,10 +4,11 @@ import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { RegisterDto } from './dto/register.dto';
+import { UserService } from 'src/user/user.service';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private userService: UserService) {}
 
     @Post('login')
     @UseGuards(LocalGuard)
@@ -18,9 +19,7 @@ export class AuthController {
     @Get("status")
     @UseGuards(JwtAuthGuard)
     status(@Req() req: any) {
-        console.log("INSIDE OF CONTROLLER StATUS METHOD")
-        console.log(req.user)
-        return req.user
+        return this.userService.findByUsername(req.user.username) 
     }
 
     @Post('register')
