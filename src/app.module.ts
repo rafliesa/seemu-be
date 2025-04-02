@@ -24,14 +24,14 @@ import { CommunityMember } from './community/entity/community.member.entity';
           imports: [ConfigModule],
           useFactory: (configService: ConfigService) => ({
             type: 'postgres',
-            host: configService.get('DB_HOST'),
-            port: +configService.get('DB_PORT'),
-            username: configService.get('DB_USERNAME'),
-            password: configService.get('DB_PASSWORD'),
-            database: configService.get('DB_DATABASE'),
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_DATABASE,
             entities: [User, Post, Like, Comment, Community, CommunityMember],
             synchronize: true,
-            ssl: configService.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false
+            ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
           }),
           inject: [ConfigService]
         }),
