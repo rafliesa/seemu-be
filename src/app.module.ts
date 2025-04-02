@@ -25,12 +25,13 @@ import { CommunityMember } from './community/entity/community.member.entity';
           useFactory: (configService: ConfigService) => ({
             type: 'postgres',
             host: configService.get('DB_HOST'),
-            port: +configService.get("DB_PORT"),
-            username: configService.get("DB_USERNAME"),
-            password: configService.get("DB_PASSWORD"),
-            database: configService.get("DB_DATABASE"),
+            port: +configService.get('DB_PORT'),
+            username: configService.get('DB_USERNAME'),
+            password: configService.get('DB_PASSWORD'),
+            database: configService.get('DB_DATABASE'),
             entities: [User, Post, Like, Comment, Community, CommunityMember],
-            synchronize: true
+            synchronize: true,
+            ssl: configService.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false
           }),
           inject: [ConfigService]
         }),
